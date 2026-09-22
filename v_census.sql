@@ -1,0 +1,42 @@
+CREATE OR REPLACE VIEW `carrier-vetting-tool.fmcsa_raw.v_census` AS
+
+SELECT
+  DOT_NUMBER,
+  LEGAL_NAME,
+  DBA_NAME,
+  CARRIER_OPERATION,
+  HM_Ind                                                         AS hazmat_indicator,
+  PHY_STREET,
+  PHY_CITY,
+  PHY_STATE,
+  PHY_ZIP,
+  PHY_COUNTRY,
+  PHONE,
+  EMAIL_ADDRESS,
+  POWER_UNITS,
+  TOTAL_DRIVERS,
+  TOTAL_CDL,
+  FLEETSIZE,
+  SAFETY_RATING,
+  SAFETY_RATING_DATE,
+  REVIEW_TYPE,
+  REVIEW_DATE,
+  SAFE_CAST(MCS150_DATE AS DATE FORMAT 'MM/DD/YYYY')             AS mcs150_date,
+  SAFE_CAST(ADD_DATE AS DATE FORMAT 'MM/DD/YYYY')                AS add_date,
+  STATUS_CODE,
+  RECORDABLE_CRASH_RATE,
+  -- Cargo type flags (Y/N)
+  CRGO_GENFREIGHT,
+  CRGO_HOUSEHOLD,
+  CRGO_LIQGAS,
+  CRGO_INTERMODAL,
+  CRGO_CHEM,
+  CRGO_DRYBULK,
+  CRGO_COLDFOOD,
+  CRGO_PRODUCE,
+  CRGO_LIVESTOCK,
+  CRGO_CARGOOTHR,
+  CRGO_CARGOOTHR_DESC
+FROM `carrier-vetting-tool.fmcsa_raw.census_raw`
+WHERE DOT_NUMBER IS NOT NULL
+  AND DOT_NUMBER != ''

@@ -1,0 +1,6 @@
+.env
+*.pyc
+__pycache__/
+.gcloud/
+service-account-key.json
+*.json.key
