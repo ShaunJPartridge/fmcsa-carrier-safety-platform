@@ -4,44 +4,7 @@ An event-driven data pipeline that automates FMCSA carrier safety compliance che
 
 ## Architecture
 
-```
-FMCSA Public Data (pipe-delimited .txt or .csv)
-        │
-        ▼
-Google Cloud Storage (fmcsa-ingestion-raw)
-        │  [OBJECT_FINALIZE event]
-        ▼
-Cloud Pub/Sub (fmcsa-file-loaded)
-        │  [triggers]
-        ▼
-Cloud Function — ingest_fmcsa (Python)
-   │
-   ├── route_table()     filename → crashes_raw / inspections_raw / census_raw
-   ├── detect_format()   .csv (comma) vs .txt (pipe-delimited)
-   ├── ensure_table_exists()
-   └── submit_load_job() → async BQ Load Job (free, no row limits)
-        │
-        ▼
-BigQuery Dataset: fmcsa_raw (carrier-vetting-tool)
-   ├── crashes_raw        (57 columns, WRITE_APPEND)
-   ├── inspections_raw    (3 columns, WRITE_APPEND)
-   └── census_raw         (140+ columns, WRITE_APPEND)
-        │
-        ▼
-BigQuery Views
-   ├── v_census           cleaned carrier identity + safety rating fields
-   ├── v_crashes          typed/cast crash records with severity fields
-   ├── v_inspections      inspection records
-   └── v_carrier_summary  pre-aggregated risk profile (joins all three)
-        │
-        ▼
-Power BI Report (Import mode)
-   └── Carrier risk dashboard — search by DOT#/name, safety flags,
-       conditional formatting by risk tier (HIGH / MEDIUM / LOW / UNRATED)
-```
-
-## Architecture
-![Pipeline Architecture](https://claude.ai/artifact/2Axgrs6yxtY4541GZFXiA2)
+![Pipeline Architecture](docs/architecture.svg)
 
 ## Why Load Jobs (not Streaming Inserts)
 
@@ -149,6 +112,10 @@ gsutil cp fmcsa_crash_2024.txt gs://fmcsa-ingestion-raw/
 gsutil cp fmcsa_inspection_2024.txt gs://fmcsa-ingestion-raw/
 gsutil cp fmcsa_census_2024.txt gs://fmcsa-ingestion-raw/
 ```
+
+## Sample Data
+
+The `sample_data/` folder contains synthetic pipe-delimited `.txt` files matching the real FMCSA schema — use these to test the pipeline without needing FMCSA credentials.
 
 ## Data Source
 
