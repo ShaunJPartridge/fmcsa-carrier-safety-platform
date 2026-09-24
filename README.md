@@ -40,6 +40,9 @@ Power BI Report (Import mode)
        conditional formatting by risk tier (HIGH / MEDIUM / LOW / UNRATED)
 ```
 
+## Architecture
+![Pipeline Architecture](https://claude.ai/artifact/2Axgrs6yxtY4541GZFXiA2)
+
 ## Why Load Jobs (not Streaming Inserts)
 
 The function uses BigQuery Load Jobs instead of `insert_rows_json`:
