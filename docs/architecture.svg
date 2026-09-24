@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 1020" width="700" height="1020" font-family="'Courier New', Courier, monospace">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .node-bg { fill: #161b22; stroke: #30363d; stroke-width: 1; }
+      .node-bg-inner { fill: #1e2530; stroke: #30363d; stroke-width: 0.5; }
+      .header-text { fill: #8b949e; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+      .sub-text { fill: #8b949e; font-size: 9.5px; }
+      .label { fill: #e6edf3; font-size: 11px; font-weight: bold; }
+      .tag-gcp { fill: rgba(66,133,244,0.2); }
+      .tag-bq  { fill: rgba(52,168,83,0.2); }
+      .tag-pbi { fill: rgba(242,201,76,0.15); }
+      .tag-src { fill: rgba(139,148,158,0.15); }
+      .tag-gcp-text { fill: #4285f4; font-size: 8px; font-weight: bold; letter-spacing: 0.8px; }
+      .tag-bq-text  { fill: #34a853; font-size: 8px; font-weight: bold; letter-spacing: 0.8px; }
+      .tag-pbi-text { fill: #f2c94c; font-size: 8px; font-weight: bold; letter-spacing: 0.8px; }
+      .tag-src-text { fill: #8b949e; font-size: 8px; font-weight: bold; letter-spacing: 0.8px; }
+      .arrow { stroke: #30363d; stroke-width: 2; fill: none; }
+      .arrow-head { fill: #30363d; }
+      .arrow-label-bg { fill: #0d1117; stroke: #30363d; stroke-width: 1; rx: 8; }
+      .arrow-label-text { fill: #58a6ff; font-size: 9px; }
+      .fn-method { fill: #d2a8ff; font-size: 9.5px; font-weight: bold; }
+      .fn-detail { fill: #8b949e; font-size: 8.5px; }
+      .bq-name-green { fill: #34a853; font-size: 9.5px; font-weight: bold; }
+      .bq-name-blue  { fill: #4285f4; font-size: 9.5px; font-weight: bold; }
+      .divider { stroke: #30363d; stroke-width: 0.5; }
+      .legend-text { fill: #8b949e; font-size: 9px; }
+      .title-text { fill: #8b949e; font-size: 13px; font-weight: bold; letter-spacing: 2px; }
+      .title-sub  { fill: #8b949e; font-size: 9px; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="1020" class="bg"/>
+
+  <!-- Title -->
+  <text x="350" y="32" text-anchor="middle" class="title-text">FMCSA CARRIER SAFETY PIPELINE</text>
+  <text x="350" y="48" text-anchor="middle" class="title-sub">carrier-vetting-tool · fmcsa_raw · GCP + Power BI</text>
+
+  <!-- ── NODE 1: FMCSA Source ── -->
+  <rect x="60" y="65" width="580" height="58" rx="7" class="node-bg"/>
+  <text x="82" y="91" class="label">📄  FMCSA Public Data</text>
+  <text x="82" y="108" class="sub-text">ai.fmcsa.dot.gov/SMS · pipe-delimited .txt / .csv</text>
+  <rect x="562" y="76" width="62" height="18" rx="4" class="tag-src"/>
+  <text x="593" y="89" text-anchor="middle" class="tag-src-text">SOURCE</text>
+
+  <!-- Arrow 1 -->
+  <line x1="350" y1="123" x2="350" y2="145" class="arrow"/>
+  <rect x="304" y="130" width="92" height="14" rx="7" class="arrow-label-bg"/>
+  <text x="350" y="141" text-anchor="middle" class="arrow-label-text">gsutil cp</text>
+  <polygon points="345,145 355,145 350,153" class="arrow-head"/>
+
+  <!-- ── NODE 2: Cloud Storage ── -->
+  <rect x="60" y="153" width="580" height="58" rx="7" class="node-bg"/>
+  <text x="82" y="179" class="label">🗂  Cloud Storage</text>
+  <text x="82" y="196" class="sub-text">gs://fmcsa-ingestion-raw</text>
+  <rect x="538" y="164" width="86" height="18" rx="4" class="tag-gcp"/>
+  <text x="581" y="177" text-anchor="middle" class="tag-gcp-text">GCS</text>
+
+  <!-- Arrow 2 -->
+  <line x1="350" y1="211" x2="350" y2="233" class="arrow"/>
+  <rect x="284" y="218" width="132" height="14" rx="7" class="arrow-label-bg"/>
+  <text x="350" y="229" text-anchor="middle" class="arrow-label-text">OBJECT_FINALIZE</text>
+  <polygon points="345,233 355,233 350,241" class="arrow-head"/>
+
+  <!-- ── NODE 3: Pub/Sub ── -->
+  <rect x="60" y="241" width="580" height="58" rx="7" class="node-bg"/>
+  <text x="82" y="267" class="label">📨  Cloud Pub/Sub</text>
+  <text x="82" y="284" class="sub-text">fmcsa-file-loaded</text>
+  <rect x="516" y="252" width="108" height="18" rx="4" class="tag-gcp"/>
+  <text x="570" y="265" text-anchor="middle" class="tag-gcp-text">PUB/SUB</text>
+
+  <!-- Arrow 3 -->
+  <line x1="350" y1="299" x2="350" y2="321" class="arrow"/>
+  <rect x="310" y="306" width="80" height="14" rx="7" class="arrow-label-bg"/>
+  <text x="350" y="317" text-anchor="middle" class="arrow-label-text">triggers</text>
+  <polygon points="345,321 355,321 350,329" class="arrow-head"/>
+
+  <!-- ── NODE 4: Cloud Function ── -->
+  <rect x="60" y="329" width="580" height="118" rx="7" class="node-bg"/>
+  <!-- header -->
+  <text x="82" y="355" class="label">⚡  Cloud Function — ingest_fmcsa</text>
+  <text x="82" y="372" class="sub-text">Python 3.11 · 512MB · 300s timeout</text>
+  <rect x="510" y="340" width="114" height="18" rx="4" class="tag-gcp"/>
+  <text x="567" y="353" text-anchor="middle" class="tag-gcp-text">CLOUD FUNCTION</text>
+  <!-- divider -->
+  <line x1="60" y1="383" x2="640" y2="383" class="divider"/>
+  <!-- 2x2 methods grid -->
+  <line x1="350" y1="383" x2="350" y2="447" class="divider"/>
+  <line x1="60" y1="415" x2="640" y2="415" class="divider"/>
+  <!-- row 1 -->
+  <text x="80" y="398" class="fn-method">route_table()</text>
+  <text x="80" y="411" class="fn-detail">filename → target table</text>
+  <text x="370" y="398" class="fn-method">detect_format()</text>
+  <text x="370" y="411" class="fn-detail">.csv comma vs .txt pipe</text>
+  <!-- row 2 -->
+  <text x="80" y="430" class="fn-method">ensure_table_exists()</text>
+  <text x="80" y="443" class="fn-detail">create if missing</text>
+  <text x="370" y="430" class="fn-method">submit_load_job()</text>
+  <text x="370" y="443" class="fn-detail">async BQ load · free tier</text>
+
+  <!-- Arrow 4 -->
+  <line x1="350" y1="447" x2="350" y2="469" class="arrow"/>
+  <rect x="246" y="454" width="208" height="14" rx="7" class="arrow-label-bg"/>
+  <text x="350" y="465" text-anchor="middle" class="arrow-label-text">async BQ Load Job · WRITE_APPEND</text>
+  <polygon points="345,469 355,469 350,477" class="arrow-head"/>
+
+  <!-- ── NODE 5: BigQuery Raw ── -->
+  <rect x="60" y="477" width="580" height="112" rx="7" class="node-bg"/>
+  <text x="82" y="503" class="label">🗄  BigQuery Dataset — fmcsa_raw</text>
+  <text x="82" y="520" class="sub-text">carrier-vetting-tool · raw ingestion layer</text>
+  <rect x="508" y="488" width="116" height="18" rx="4" class="tag-bq"/>
+  <text x="566" y="501" text-anchor="middle" class="tag-bq-text">BIGQUERY</text>
+  <line x1="60" y1="531" x2="640" y2="531" class="divider"/>
+  <!-- 3 columns -->
+  <line x1="253" y1="531" x2="253" y2="589" class="divider"/>
+  <line x1="447" y1="531" x2="447" y2="589" class="divider"/>
+  <text x="157" y="552" text-anchor="middle" class="bq-name-green">crashes_raw</text>
+  <text x="157" y="567" text-anchor="middle" class="fn-detail">57 STRING cols</text>
+  <text x="157" y="580" text-anchor="middle" class="fn-detail">WRITE_APPEND</text>
+  <text x="350" y="552" text-anchor="middle" class="bq-name-green">inspections_raw</text>
+  <text x="350" y="567" text-anchor="middle" class="fn-detail">3 cols</text>
+  <text x="350" y="580" text-anchor="middle" class="fn-detail">WRITE_APPEND</text>
+  <text x="544" y="552" text-anchor="middle" class="bq-name-green">census_raw</text>
+  <text x="544" y="567" text-anchor="middle" class="fn-detail">140+ STRING cols</text>
+  <text x="544" y="580" text-anchor="middle" class="fn-detail">WRITE_APPEND</text>
+
+  <!-- Arrow 5 -->
+  <line x1="350" y1="589" x2="350" y2="611" class="arrow"/>
+  <rect x="298" y="596" width="104" height="14" rx="7" class="arrow-label-bg"/>
+  <text x="350" y="607" text-anchor="middle" class="arrow-label-text">SQL Views</text>
+  <polygon points="345,611 355,611 350,619" class="arrow-head"/>
+
+  <!-- ── NODE 6: BigQuery Views ── -->
+  <rect x="60" y="619" width="580" height="130" rx="7" class="node-bg"/>
+  <text x="82" y="645" class="label">🔍  BigQuery Views</text>
+  <text x="82" y="662" class="sub-text">typed casts · CTE pre-aggregation · risk logic</text>
+  <rect x="524" y="630" width="100" height="18" rx="4" class="tag-bq"/>
+  <text x="574" y="643" text-anchor="middle" class="tag-bq-text">VIEWS</text>
+  <line x1="60" y1="673" x2="640" y2="673" class="divider"/>
+  <!-- 2x2 grid -->
+  <line x1="350" y1="673" x2="350" y2="749" class="divider"/>
+  <line x1="60" y1="711" x2="640" y2="711" class="divider"/>
+  <text x="80" y="691" class="bq-name-blue">v_census</text>
+  <text x="80" y="704" class="fn-detail">carrier identity + safety rating</text>
+  <text x="370" y="691" class="bq-name-blue">v_crashes</text>
+  <text x="370" y="704" class="fn-detail">typed crash records + severity</text>
+  <text x="80" y="729" class="bq-name-blue">v_inspections</text>
+  <text x="80" y="742" class="fn-detail">inspection records by DOT#</text>
+  <text x="370" y="729" class="bq-name-blue">v_carrier_summary</text>
+  <text x="370" y="742" class="fn-detail">risk profile · HIGH/MED/LOW/UNRATED</text>
+
+  <!-- Arrow 6 -->
+  <line x1="350" y1="749" x2="350" y2="771" class="arrow"/>
+  <rect x="296" y="756" width="108" height="14" rx="7" class="arrow-label-bg"/>
+  <text x="350" y="767" text-anchor="middle" class="arrow-label-text">Import mode</text>
+  <polygon points="345,771 355,771 350,779" class="arrow-head"/>
+
+  <!-- ── NODE 7: Power BI ── -->
+  <rect x="60" y="779" width="580" height="58" rx="7" class="node-bg"/>
+  <text x="82" y="805" class="label">📊  Power BI Dashboard</text>
+  <text x="82" y="822" class="sub-text">search by DOT# · risk tier flags · conditional formatting</text>
+  <rect x="512" y="790" width="112" height="18" rx="4" class="tag-pbi"/>
+  <text x="568" y="803" text-anchor="middle" class="tag-pbi-text">POWER BI</text>
+
+  <!-- Legend -->
+  <line x1="60" y1="868" x2="640" y2="868" class="divider"/>
+  <rect x="100" y="879" width="10" height="10" rx="2" fill="#4285f4"/>
+  <text x="116" y="889" class="legend-text">Google Cloud Platform</text>
+  <rect x="250" y="879" width="10" height="10" rx="2" fill="#34a853"/>
+  <text x="266" y="889" class="legend-text">BigQuery</text>
+  <rect x="360" y="879" width="10" height="10" rx="2" fill="#f2c94c"/>
+  <text x="376" y="889" class="legend-text">Power BI</text>
+  <rect x="450" y="879" width="10" height="10" rx="2" fill="#8b949e"/>
+  <text x="466" y="889" class="legend-text">FMCSA Public Data</text>
+
+  <!-- github watermark -->
+  <text x="350" y="920" text-anchor="middle" class="title-sub">github.com/ShaunJPartridge/fmcsa-carrier-safety-platform</text>
+</svg>
