@@ -6,6 +6,10 @@ An event-driven data pipeline that automates FMCSA carrier safety compliance che
 
 ![Pipeline Architecture](docs/architecture.svg)
 
+## Dashboard Preview
+
+![Dashboard Preview](docs/PowerBI-fmcsa-report.png)
+
 ## Why Load Jobs (not Streaming Inserts)
 
 The function uses BigQuery Load Jobs instead of `insert_rows_json`:
