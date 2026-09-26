@@ -1,6 +1,6 @@
 # Carrier Safety Vetting Platform
 
-An event-driven data pipeline that automates FMCSA carrier safety compliance checks — replacing manual spreadsheet vetting with a structured BigQuery warehouse and live Power BI dashboard.
+A centralized carrier vetting platform that gives freight operations a single place to determine whether a carrier should be used — pulling FMCSA safety data into a structured BigQuery warehouse and surfacing risk ratings through a live Power BI dashboard.
 
 ## Architecture
 
